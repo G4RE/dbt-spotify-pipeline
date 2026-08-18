@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# dbt
+dbt_project/target/
+dbt_project/dbt_packages/
+dbt_project/logs/
+dbt_project/.user.yml
+dbt_project/profiles.yml
+
+# Environment variables
+.env
+
+# PostgreSQL / Docker
+postgres_data/
+
+# OS files
+.DS_Store
+Thumbs.db
