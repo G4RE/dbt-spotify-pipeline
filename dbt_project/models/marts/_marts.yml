@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: genre_trends
+    description: One row per genre with average popularity and audio-feature profile.
+    columns:
+      - name: track_genre
+        tests:
+          - not_null
+          - unique
+
+  - name: artist_popularity
+    description: >
+      One row per artist credit (as it appears in the `artists` field) with
+      popularity summary stats. Limited to artist credits with more than one
+      track in the dataset.
+    columns:
+      - name: artists
+        tests:
+          - not_null
+
+  - name: mood_clusters
+    description: One row per unique track, bucketed into a valence/energy mood quadrant.
+    columns:
+      - name: track_id
+        tests:
+          - not_null
+          - unique
+      - name: mood_cluster
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - happy_energetic
+                - calm_positive
+                - angry_tense
+                - sad_low_energy
