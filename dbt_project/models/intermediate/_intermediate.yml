@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: int_tracks_with_audio_features
+    description: >
+      Tracks joined to their audio features, one row per (track_id,
+      track_genre). Feeds the mart layer.
+    columns:
+      - name: track_id
+        tests:
+          - not_null
+      - name: track_genre
+        tests:
+          - not_null
