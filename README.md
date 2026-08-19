@@ -1,6 +1,6 @@
 # Music Trend Analytics Pipeline
 
-![dbt CI](https://github.com/<your-username>/<your-repo>/actions/workflows/dbt_ci.yml/badge.svg)
+![dbt CI](https://github.com/G4RE/dbt-spotify-pipeline/actions/workflows/dbt_ci.yml/badge.svg)
 
 A dbt analytics project exploring genre and mood trends in music, built on the
 public Kaggle Spotify Tracks dataset. Staging → intermediate → mart layers,
