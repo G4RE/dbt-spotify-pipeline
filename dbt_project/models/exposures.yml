@@ -1,0 +1,23 @@
+version: 2
+
+# Exposures document downstream consumers of the mart layer (dashboards,
+# notebooks, ML pipelines) so `dbt docs generate` shows the full picture,
+# not just the last model. This one is illustrative — swap the url/owner
+# for a real dashboard if you build one, or delete this file if you'd
+# rather not claim a downstream consumer that doesn't exist yet.
+
+exposures:
+  - name: genre_mood_dashboard
+    type: dashboard
+    maturity: medium
+    url: https://example.com/dashboards/genre-mood
+    description: >
+      Illustrative exposure showing how the mart layer would feed a
+      downstream BI dashboard exploring genre trends and mood distribution.
+    depends_on:
+      - ref('genre_trends')
+      - ref('artist_popularity')
+      - ref('mood_clusters')
+    owner:
+      name: <your name>
+      email: <your email>

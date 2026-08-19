@@ -11,6 +11,10 @@ dbt_project/dbt_packages/
 dbt_project/logs/
 dbt_project/.user.yml
 dbt_project/profiles.yml
+dbt_project/package-lock.yml
+
+# Data (not committed - see README for how to obtain)
+data/*.csv
 
 # Environment variables
 .env

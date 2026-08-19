@@ -1,0 +1,15 @@
+# Copy this to dbt_project/profiles.yml (gitignored) to connect dbt to the
+# Postgres container defined in docker-compose.yml.
+
+spotify_pipeline:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      user: spotify
+      password: spotify_password
+      port: 5432
+      dbname: spotify
+      schema: dbt_dev
+      threads: 4

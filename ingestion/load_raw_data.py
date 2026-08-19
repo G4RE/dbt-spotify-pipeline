@@ -15,7 +15,11 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 # CSV location:
 # dbt-spotify-pipeline/data/dataset.csv
-CSV_PATH = PROJECT_ROOT / "data" / "dataset.csv"
+# Can be overridden with SPOTIFY_CSV_PATH (used by CI to point at the
+# small fixture in tests/fixtures/ instead of the full local dataset).
+CSV_PATH = Path(
+    os.environ.get("SPOTIFY_CSV_PATH", PROJECT_ROOT / "data" / "dataset.csv")
+)
 
 # PostgreSQL settings from docker-compose.yml
 DB_USER = "spotify"
@@ -55,7 +59,8 @@ def load_csv():
     if not CSV_PATH.exists():
         raise FileNotFoundError(
             f"Could not find dataset at:\n{CSV_PATH}\n\n"
-            "Make sure dataset.csv is located in data/dataset.csv"
+            "Make sure dataset.csv is located in data/dataset.csv, or set "
+            "SPOTIFY_CSV_PATH to point at a different file."
         )
 
     print(f"Reading dataset from: {CSV_PATH}")

@@ -1,0 +1,60 @@
+name: dbt CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  dbt-build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: spotify
+          POSTGRES_PASSWORD: spotify_password
+          POSTGRES_DB: spotify
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U spotify"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install ingestion dependencies
+        run: pip install -r ingestion/requirements.txt
+
+      - name: Load CI sample dataset into Postgres
+        env:
+          # small, deterministic 570-row fixture checked into the repo —
+          # keeps CI fast and independent of the full (gitignored) dataset
+          SPOTIFY_CSV_PATH: ${{ github.workspace }}/tests/fixtures/ci_sample_dataset.csv
+        run: python ingestion/load_raw_data.py
+
+      - name: Install dbt
+        run: pip install dbt-core dbt-postgres
+
+      - name: Write profiles.yml
+        run: |
+          mkdir -p ~/.dbt
+          cp dbt_project/profiles.yml.example ~/.dbt/profiles.yml
+
+      - name: dbt deps
+        working-directory: dbt_project
+        run: dbt deps
+
+      - name: dbt build
+        working-directory: dbt_project
+        run: dbt build
