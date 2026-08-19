@@ -1,0 +1,51 @@
+version: 2
+
+models:
+  - name: stg_spotify_tracks
+    description: >
+      Cleaned, cast version of the raw spotify_tracks source. Grain matches
+      the raw data (one row per track/genre pairing).
+    columns:
+      - name: track_id
+        tests:
+          - not_null
+
+  - name: stg_tracks
+    description: One row per unique track, deduplicated across genre repeats.
+    columns:
+      - name: track_id
+        tests:
+          - not_null
+          - unique
+      - name: popularity
+        tests:
+          - not_null
+
+  - name: stg_audio_features
+    description: One row per unique track's precomputed Spotify audio features.
+    columns:
+      - name: track_id
+        tests:
+          - not_null
+          - unique
+      - name: valence
+        tests:
+          - not_null
+      - name: energy
+        tests:
+          - not_null
+
+  - name: stg_track_genres
+    description: >
+      Bridge table mapping each track_id to the genre(s) it is tagged under
+      (many rows per track_id).
+    columns:
+      - name: track_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_tracks')
+              field: track_id
+      - name: track_genre
+        tests:
+          - not_null

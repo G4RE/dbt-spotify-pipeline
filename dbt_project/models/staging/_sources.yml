@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    tables:
+      - name: spotify_tracks
+        description: >
+          Raw Spotify track data loaded from the Kaggle "Spotify Tracks Dataset"
+          via ingestion/load_raw_data.py. Grain is one row per (track_id,
+          track_genre) pairing — the same track_id repeats once for every
+          genre it was tagged under in the source CSV (confirmed: audio
+          features and metadata are identical across repeats, only
+          track_genre differs).
+        columns:
+          - name: track_id
+            description: Spotify track ID. NOT unique at this grain.
+          - name: track_genre
+            description: Genre label assigned to this track/genre row.
