@@ -19,5 +19,5 @@ exposures:
       - ref('artist_popularity')
       - ref('mood_clusters')
     owner:
-      name: <your name>
-      email: <your email>
+      name: Gare_Ono
+      email: gare148@gmail.com
